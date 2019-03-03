@@ -21,6 +21,14 @@ $(document).ready(function() {
 
     $('[data-toggle="popover"]').popover({placement: 'top'});
 
+    var glarsonpubkeyButton = $('#glarson-pubkey-button');
+
+    glarsonpubkeyButton.click(function(){
+        var encryptionReceiversPublicKey = $("#encryption-receivers-public-key");
+        encryptionReceiversPublicKey.load('/pubkey/glarson.asc');
+        console.log("glarson's pubkey loaded");
+    });
+
     /* New code by Matej Ramuta */
 
     // ENCRYPTION
@@ -48,7 +56,15 @@ $(document).ready(function() {
             kbpgp.box(params, function(err, result_string, result_buffer) {
               console.log(err, result_string, result_buffer);
               encryptionEncryptedText.val(result_string);
+
+            var mailToLink = "mailto:glarson@green-applications.com?subject=crypto.glarson.id&body=" + encodeURIComponent(encryptionEncryptedText.val());
+
+            console.log(encryptionEncryptedText.val());
+            console.log(mailToLink);
+
+            $('#encrypt-panel').append('<button class="btn btn-primary" id="email-glarson"  onclick="window.open(\''+mailToLink+'\');">Email to glarson</button>');
             });
+
 
           } else {
             console.log("Error!");

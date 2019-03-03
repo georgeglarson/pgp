@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <!-- Set charset to UTF-8 -->
+    <meta charset="utf-8">
+
+    <title>glarson.id cryto</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <link rel="stylesheet" type="text/css" href="/pgp/assets/css/bootstrap.min.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="/pgp/assets/css/custom.css" media="screen">
+
+    <script type="text/javascript" src="/pgp/assets/js/jquery-1.11.2.min.js"></script>
+    <script type="text/javascript" src="/pgp/assets/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/pgp/assets/js/kbpgp.js"></script>
+    <script type="text/javascript" src="/pgp/assets/js/FileSaver.js"></script>
+    <script type="text/javascript" src="/pgp/assets/js/pgpkeygen.js"></script>
+    <!--[if IE 9]>
+		<script type="text/javascript" src="/pgp/assets/js/placeholder.js"></script>
+	<![endif]-->
+
+    <!-- Main script -->
+    <script type="text/javascript" src="/pgp/assets/js/main.js"></script>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="row content">
+            <div class="col-md-12">
+
+                <div class="page-header">
+                </div>
+
+                <div class="tabbable">
+
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="active"><a href="#generator" aria-controls="generator" role="tab" data-toggle="tab">Generate a PGP key pair</a></li>
+                        <li role="presentation"><a href="#encrypt" aria-controls="encrypt" role="tab" data-toggle="tab">Encrypt</a></li>
+                        <li role="presentation"><a href="#decrypt" aria-controls="decrypt" role="tab" data-toggle="tab">Decrypt</a></li>
+                    </ul>
+
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+
+                        <!-- Key gen -->
+                        <div role="tabpanel" class="tab-pane active" id="generator">
+
+                            <div class="row generator">
+                                <div class="col-md-5">
+
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <h3 class="panel-title">Options</h3>
+                                        </div>
+                                        <div class="panel-body">
+                                            <form action="" name="keygen" id="keygen" method="post">
+                                                <div class="form-group">
+                                                    <label class="sr-only" for="name">Your Name</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></div>
+                                                        <input class="form-control" name="name" placeholder="Your Name" type="text" id="name" title="Enter your name" required>
+                                                        <div class="input-group-addon">Required</div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="sr-only" for="email">Email</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></div>
+                                                        <input class="form-control" name="email" placeholder="your@domain.com" type="email" id="email" title="Enter a valid email address" required>
+                                                        <div class="input-group-addon">Required</div>
+                                                    </div>
+                                                    <span id="helpBlock" class="help-block"><a href="#" data-toggle="popover" title="Email address" data-content="Your email address will be included as public information in your public PGP key, so your public key can be easily imported by third-party PGP software. If you do not supply your email address, your PGP decryption software may be unable to link your email address to your public PGP key, and therefore unable to automatically encrypt/decrypt email messages. As a result, you will have to manually decrypt messages each time you receive a PGP-encrypted message.">Email address: Why it is required?</a></span>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="sr-only" for="comments">Optional Comment</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></div>
+                                                        <input class="form-control" name="comments" placeholder="Optional comments" type="text" id="comments" title="Enter any optional comment">
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="sr-only" for="algorithm">Algorithm</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></div>
+                                                        <select class="form-control" name="algorithm" id="algorithm" title="Choose an encryption algorithm" required>
+                                                            <option value="" disabled="disabled" selected="selected" class="disabled">Algorithm</option>
+                                                            <option value="rsa">RSA (Recommended)</option>
+                                                            <option value="ecc">ECC (Elliptic Curve Cryptography)</option>
+                                                        </select>
+                                                        <div class="input-group-addon">Required</div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="sr-only" for="bitlength">Bit Length</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon"><span class="glyphicon glyphicon-signal" aria-hidden="true"></span></div>
+                                                        <select class="form-control" name="bitlength" id="bitlength" title="Select a key size" required disabled>
+                                                            <option value="" class="disabled" selected="selected">Key size</option>
+                                                        </select>
+                                                        <div class="input-group-addon">Required</div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="sr-only" for="expire">Expires</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon"><span class="glyphicon glyphicon-hourglass" aria-hidden="true"></span></div>
+                                                        <select name="expire" id="expire" class="form-control" title="Expiration of your subkeys" required>
+                                                            <option value="" disabled="disabled" selected="selected" class="disabled">Expires</option>
+                                                            <option value="0">Never</option>
+                                                            <option value="1">1 year</option>
+                                                            <option value="2">2 years</option>
+                                                            <option value="4">4 years</option>
+                                                            <option value="8">8 years</option>
+                                                        </select>
+                                                        <div class="input-group-addon">Required</div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="sr-only" for="passphrase">Passphrase</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon"><span class="glyphicon glyphicon-text-background" aria-hidden="true"></span></div>
+                                                        <input class="form-control" name="passphrase" placeholder="Passphrase" type="password" id="passphrase" pattern=".{5,}" title="Enter a passphrase; at least 5 characters" required>
+                                                        <div class="input-group-addon">Required</div>
+                                                    </div>
+                                                    <span id="helpBlock" class="help-block"><a href="#" data-toggle="popover" title="Passphrase" data-content="Passphrase is a like a password to protect your private PGP key. This password offers an extra layer of protection in case someone manages to steal your public PGP key. Please pick a password you will remember, because if you forget this password, there is no way to recover your password and no way for you to decrypt PGP messages sent to you!">Passphrase: What is this?</a></span>
+                                                </div>
+
+                                                <input type="submit" value="Generate keys" id="generate_keys_btn" class="btn btn-primary btn-lg btn-block send" name="send" />
+                                                <a href="/" id="start_again_btn" class="btn btn-link btn-block hide">Click here to regenerate another pair of key</a>
+                                            </form>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-7">
+
+                                    <input type="hidden" name="key_short_id" id="key_short_id" value="" />
+                                    <input type="hidden" name="btn_update_ts" id="btn_update_ts" value=0 />
+
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <h3 class="panel-title">Public Key</h3>
+                                        </div>
+                                        <div class="panel-body">
+                                            <textarea class="form-control message" rows="7" name="pubkey" placeholder="Your public key will be generated here." id="pubkey" readonly></textarea>
+                                            <span id="helpBlock" class="help-block"><a href="#" class="btn btn-danger download disabled" title="This button will be enabled after you generate your key pair." name="download_pub_key" id="download_pub_key"><span class="glyphicon glyphicon-save" aria-hidden="true"></span> Download public key (.ASC file)</a> <a href="#" class="btn btn-link" data-toggle="popover" title="Public key" data-content="You can put this key on your website or at the bottom signature of your email messages. Anyone wishing to contact you in private will have your public PGP key to send you encrypted messages.">Learn More</a>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <h3 class="panel-title">Private Key</h3>
+                                        </div>
+                                        <div class="panel-body">
+                                            <textarea class="form-control message" rows="7" name="privkey" placeholder="Your private key will be generated here." id="privkey" readonly></textarea>
+                                            <span id="helpBlock" class="help-block"><a href="#" class="btn btn-danger download disabled" title="This button will be enabled after you generate your key pair." name="download_priv_key" id="download_priv_key"><span class="glyphicon glyphicon-save" aria-hidden="true"></span> Download private key (.ASC file)</a> <a href="#" class="btn btn-link" data-toggle="popover" title="Private key" data-content="Save your private PGP key in a file on your computer and keep it as confidential as possible. You will need it to decrypt PGP messages sent to you using your public PGP key.">Learn More</a>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- End Key gen -->
+
+                        <!-- Encrypt message -->
+                        <div role="tabpanel" class="tab-pane" id="encrypt">
+                             <div class="row generator">
+                                <div class="col-md-5">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <h3 class="panel-title">Receiver's Public Key</h3>
+                                        </div>
+                                        <div class="panel-body">
+                                            <textarea class="form-control message" id="encryption-receivers-public-key"
+                                                      rows="7" placeholder="Paste receiver's public key here."></textarea>
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-primary" id="glarson-pubkey-button">Load glarson's pubkey</button>
+                                </div>
+
+                                 <div class="col-md-7" id="encrypt-panel">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <h3 class="panel-title">Your message</h3>
+                                        </div>
+                                        <div class="panel-body">
+                                            <textarea class="form-control message" rows="7" id="encryption-plain-text"
+                                                      placeholder="Write your message here."></textarea>
+                                        </div>
+                                    </div>
+
+                                     <button class="btn btn-primary" id="encryption-button">Encrypt the message</button>
+                                     <br>
+                                     <br>
+
+                                     <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <h3 class="panel-title">Encrypted message</h3>
+                                        </div>
+                                        <div class="panel-body">
+                                            <textarea class="form-control message" rows="7" id="encryption-encrypted-text"
+                                                      placeholder="Here you'll see the encrypted message." readonly></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                             </div>
+                        </div>
+                        <!-- end Encrypt message -->
+
+                        <!-- Decrypt message -->
+                        <div role="tabpanel" class="tab-pane" id="decrypt">
+                              <div class="row generator">
+                                <div class="col-md-5">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <h3 class="panel-title">Your Private Key</h3>
+                                        </div>
+                                        <div class="panel-body">
+                                            <textarea class="form-control message" id="decryption-private-key"
+                                                      rows="7" placeholder="Paste your private key here."></textarea>
+                                            <br>
+
+                                            <div class="input-group">
+                                                <div class="input-group-addon"><span class="glyphicon glyphicon-text-background" aria-hidden="true"></span></div>
+                                                <input class="form-control" name="decryption-passphrase" placeholder="Passphrase for private key" type="password" id="decryption-passphrase" pattern=".{5,}" title="Enter your private key passphrase">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                 <div class="col-md-7">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <h3 class="panel-title">Encrypted message</h3>
+                                        </div>
+                                        <div class="panel-body">
+                                            <textarea class="form-control message" rows="7" id="decryption-encrypted-text"
+                                                      placeholder="Enter the encrypted message here."></textarea>
+                                        </div>
+                                    </div>
+
+                                     <button class="btn btn-warning" id="decryption-button">Decrypt the message</button>
+                                     <br>
+                                     <br>
+
+                                     <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <h3 class="panel-title">Decrypted message</h3>
+                                        </div>
+                                        <div class="panel-body">
+                                            <textarea class="form-control message" rows="7" id="decryption-decrypted-text"
+                                                      placeholder="Here you'll see the decrypted message." readonly></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                             </div>
+                        </div>
+                        <!-- end Decrypt message -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
